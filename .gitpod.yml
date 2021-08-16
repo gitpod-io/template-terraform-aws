@@ -1,8 +1,9 @@
+image:
+  file: .gitpod.Dockerfile
+
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
-  - name: AWS Set-up
-    init: aws configure
-  - name: Install Terraform depdencies
+  - name: Install Terraform dependencies
     init: |
       sudo apt-get update
       sudo apt-get install -y gnupg software-properties-common curl
@@ -13,13 +14,16 @@ tasks:
       sudo apt-get install terraform
       echo "You are on" `terraform version`
       gp sync-done build
-    openMode: split-left
-  - name: Inialise terraform
-    init: gp sync-await build
-    command: terraform init && terraform apply
-    openMode: split-right
 
-ports:
-  - port: 8000
-    onOpen: open-preview
-    visibility: private
+  - name: Initalise terraform
+    init: gp sync-await build
+    command: |
+      export AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID"
+      export AWS_SECRET_ACCESS_KEY="$AWS_SECRETS_ACCESS_KEY"
+      export AWS_DEFAULT_REGION="eu-west-1"
+      terraform init
+      terraform plan
+
+vscode:
+  extensions:
+    - hashicorp.terraform
