@@ -4,16 +4,8 @@ image:
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
   - name: Install Terraform dependencies
-    init: |
-      sudo apt-get update
-      sudo apt-get install -y gnupg software-properties-common curl
-      curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-      sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-    command: |
-      sudo apt-get update
-      sudo apt-get install terraform
-      echo "You are on" `terraform version`
-      gp sync-done build
+    init: echo "You are on" `terraform version`
+    command: gp sync-done build
 
   - name: Initalise terraform
     init: gp sync-await build

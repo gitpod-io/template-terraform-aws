@@ -9,7 +9,10 @@ terraform {
   required_version = ">= 0.14.9"
 }
 provider "aws" {
+
 }
+
+
 
 resource "aws_instance" "app_server" {
   ami           = "ami-830c94e3"
